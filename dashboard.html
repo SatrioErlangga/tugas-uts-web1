@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Menu — Lentera Pustaka | Sistem Informasi Buku Ajar</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Internal CSS untuk kustomisasi lencana waktu di Dashboard -->
+    <style>
+        .greeting-time-chip {
+            background-color: rgba(254, 243, 199, 0.2);
+            border: 1px solid #fef3c7;
+            color: #fef3c7;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Semantik -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="dashboard.html" class="brand-identity">
+                <img src="assets/logo.png" alt="Logo Lentera Pustaka" class="brand-logo">
+                <div>
+                    <span class="brand-title">Lentera Pustaka</span>
+                    <span class="brand-subtitle">Dashboard Utama Layanan Bahan Ajar</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu Utama">
+                <ul>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                    <li><a href="checkout.html">Pemesanan Buku</a></li>
+                    <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-pill">
+                <span>Halo, <strong id="headerUserName">Rina Wulandari</strong></span>
+                <span id="headerUserRole" class="user-role-badge">User</span>
+                <button type="button" id="btnLogoutApp" class="btn-logout">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama Dashboard -->
+    <main class="main-container">
+        <!-- Banner Sapaan Berdasarkan Local Time (Pagi/Siang/Sore) -->
+        <section class="page-banner" aria-labelledby="greetingTitle">
+            <div>
+                <h1 id="greetingTitle">Selamat Pagi, Pengguna!</h1>
+                <p id="greetingSubtitle">Memuat sapaan waktu lokal perangkat Anda...</p>
+            </div>
+            <div class="greeting-time-chip" style="box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                Status Sistem: Aktif &amp; Terhubung ke <code>data.js</code>
+            </div>
+        </section>
+
+        <!-- Ringkasan Indikator Data (Statistik Real-time dari data.js) -->
+        <section class="stats-grid" aria-label="Ringkasan Statistik Toko">
+            <article class="stat-card">
+                <span class="stat-label">Total Katalog Buku</span>
+                <div id="statTotalJudul" class="stat-value">5 Judul</div>
+            </article>
+            <article class="stat-card accent">
+                <span class="stat-label">Total Stok Tersedia</span>
+                <div id="statTotalEksemplar" class="stat-value">1.587 Eks</div>
+            </article>
+            <article class="stat-card">
+                <span class="stat-label">Data Pengiriman Aktif</span>
+                <div id="statTotalDO" class="stat-value">2 Nomor DO</div>
+            </article>
+            <article class="stat-card accent">
+                <span class="stat-label">Riwayat Transaksi</span>
+                <div id="statTotalTransaksi" class="stat-value">2 Pesanan</div>
+            </article>
+        </section>
+
+        <!-- 4 Tombol Navigasi Utama Sesuai Soal UTS -->
+        <section aria-labelledby="judulMenuNavigasi">
+            <div class="section-header">
+                <h2 id="judulMenuNavigasi" class="section-title">Menu Utama Navigasi Aplikasi</h2>
+                <a href="checkout.html" class="btn btn-accent btn-sm">+ Buat Pesanan Baru</a>
+            </div>
+
+            <div class="menu-cards-grid">
+                <!-- Menu 1: Informasi Stok/Katalog -->
+                <article class="menu-nav-card">
+                    <div>
+                        <div class="menu-icon-badge">01</div>
+                        <h3>Informasi Stok/Katalog</h3>
+                        <p>Lihat daftar lengkap buku ajar dari variabel konstanta <code>dataKatalogBuku</code> serta tambahkan baris stok buku baru secara dinamis.</p>
+                    </div>
+                    <a href="stok.html" class="btn btn-primary btn-block">Buka Katalog &amp; Stok</a>
+                </article>
+
+                <!-- Menu 2: Tracking Pengiriman -->
+                <article class="menu-nav-card">
+                    <div>
+                        <div class="menu-icon-badge">02</div>
+                        <h3>Tracking Pengiriman</h3>
+                        <p>Lacak posisi pengiriman paket bahan ajar menggunakan Nomor Delivery Order (DO), lengkap dengan progress bar dan detail ekspedisi.</p>
+                    </div>
+                    <a href="tracking.html" class="btn btn-primary btn-block">Lacak Pengiriman</a>
+                </article>
+
+                <!-- Menu 3: Laporan Pemesanan -->
+                <article class="menu-nav-card">
+                    <div>
+                        <div class="menu-icon-badge">03</div>
+                        <h3>Laporan Pemesanan</h3>
+                        <p>Rekapitulasi data pemesanan buku bahan ajar beserta rincian item, nilai transaksi, dan tombol akses menuju form pemesanan baru.</p>
+                    </div>
+                    <div style="display: grid; gap: 0.5rem;">
+                        <button type="button" class="btn btn-primary btn-block" onclick="bukaModal('modalLaporanPemesanan')">Lihat Laporan Pemesanan</button>
+                        <a href="checkout.html" class="btn btn-outline btn-sm btn-block">Ke Halaman Pemesanan (Checkout)</a>
+                    </div>
+                </article>
+
+                <!-- Menu 4: History Transaksi -->
+                <article class="menu-nav-card">
+                    <div>
+                        <div class="menu-icon-badge">04</div>
+                        <h3>History Transaksi</h3>
+                        <p>Catatan riwayat pembayaran, metode transaksi yang digunakan pemesan, ekspedisi pengiriman, serta tautan langsung ke pelacakan DO.</p>
+                    </div>
+                    <button type="button" class="btn btn-accent btn-block" onclick="bukaModal('modalHistoryTransaksi')">Buka History Transaksi</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Panel Ringkasan History Transaksi Langsung di Halaman Dashboard -->
+        <section class="card-panel" aria-labelledby="judulTabelRingkas">
+            <div class="section-header">
+                <h2 id="judulTabelRingkas" class="section-title">Pratinjau Cepat History Transaksi &amp; Pemesanan Terbaru</h2>
+                <a href="checkout.html" class="btn btn-outline btn-sm">Tambah Transaksi di Checkout</a>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Transaksi</th>
+                            <th>Tanggal</th>
+                            <th>Nama Pemesan</th>
+                            <th>Metode Bayar</th>
+                            <th>Ekspedisi &amp; Paket</th>
+                            <th>Total Pembayaran</th>
+                            <th>Status Kirim</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyHistoryTransaksi">
+                        <!-- Diisi secara dinamis oleh js/script.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL LAPORAN PEMESANAN -->
+    <div id="modalLaporanPemesanan" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulModalLaporan">
+        <div class="modal-box modal-lg">
+            <div class="modal-header">
+                <h3 id="judulModalLaporan">Laporan Pemesanan Bahan Ajar</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalLaporanPemesanan')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: #57606a; margin-bottom: 1rem;">
+                    Berikut adalah rekapitulasi laporan pemesanan buku yang tercatat di dalam sistem (otomatis bertambah ketika Anda melakukan pemesanan baru pada halaman <code>checkout.html</code>):
+                </p>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nomor DO</th>
+                                <th>Tanggal</th>
+                                <th>Pemesan</th>
+                                <th>Rincian Buku Dipesan</th>
+                                <th>Total Nilai</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyLaporanPemesanan"></tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 1rem; text-align: right; font-size: 1rem;">
+                    Total Akumulasi Nilai Pemesanan: <strong id="totalNilaiLaporan" style="color: #1b4332; font-size: 1.15rem;">Rp 0</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="checkout.html" class="btn btn-accent btn-sm">+ Tambah Pemesanan Baru</a>
+                <button type="button" class="btn btn-primary btn-sm" onclick="tutupModal('modalLaporanPemesanan')">Tutup Laporan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL HISTORY TRANSAKSI -->
+    <div id="modalHistoryTransaksi" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulModalHistory">
+        <div class="modal-box modal-lg">
+            <div class="modal-header">
+                <h3 id="judulModalHistory">History Transaksi Pembelian Buku</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalHistoryTransaksi')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: #57606a; margin-bottom: 1rem;">
+                    Daftar riwayat transaksi pelanggan beserta metode pembayaran dan status pengiriman ekspedisi:
+                </p>
+                <div class="alert-box alert-info show" style="margin-bottom: 1rem;">
+                    <span>Setiap pesanan yang Anda selesaikan di halaman <strong>Pemesanan (checkout.html)</strong> akan otomatis tercatat di dalam daftar ini.</span>
+                </div>
+                <p style="font-size: 0.88rem; color: #1b4332;">
+                    Silakan gunakan tabel History Transaksi pada layar utama Dashboard atau klik tombol <strong>Lacak DO</strong> untuk melihat posisi paket.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="tracking.html" class="btn btn-outline btn-sm">Ke Halaman Tracking</a>
+                <button type="button" class="btn btn-primary btn-sm" onclick="tutupModal('modalHistoryTransaksi')">Selesai</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Semantik -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 <strong>Lentera Pustaka</strong> — Dashboard Sistem Pemesanan Buku Online.</span>
+            <span>Navigasi Terintegrasi: Katalog &bull; Checkout &bull; Tracking DO</span>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

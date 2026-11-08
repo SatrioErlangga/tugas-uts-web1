@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Stok &amp; Katalog Buku — Lentera Pustaka</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .filter-toolbar {
+            display: grid;
+            grid-template-columns: 1fr 220px auto;
+            gap: 0.85rem;
+            margin-bottom: 1.25rem;
+            align-items: end;
+        }
+        @media (max-width: 768px) {
+            .filter-toolbar {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Semantik -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="dashboard.html" class="brand-identity">
+                <img src="assets/logo.png" alt="Logo Lentera Pustaka" class="brand-logo">
+                <div>
+                    <span class="brand-title">Lentera Pustaka</span>
+                    <span class="brand-subtitle">Manajemen Katalog &amp; Informasi Stok Buku</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu Utama">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="stok.html" class="active">Informasi Stok/Katalog</a></li>
+                    <li><a href="checkout.html">Pemesanan Buku</a></li>
+                    <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-pill">
+                <span>Halo, <strong id="headerUserName">Rina Wulandari</strong></span>
+                <span id="headerUserRole" class="user-role-badge">User</span>
+                <button type="button" id="btnLogoutApp" class="btn-logout">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="page-banner">
+            <div>
+                <h1>Informasi Stok &amp; Katalog Buku Ajar</h1>
+                <p>Data katalog dimuat secara dinamis dari variabel konstanta <code>dataKatalogBuku</code> pada file <code>js/data.js</code>.</p>
+            </div>
+            <a href="checkout.html" class="btn btn-accent">Lanjut ke Pemesanan Buku &rarr;</a>
+        </section>
+
+        <!-- BAGIAN 1: FORM TAMBAH BARIS STOK BARU MENGGUNAKAN JAVASCRIPT DOM -->
+        <section class="card-panel" aria-labelledby="judulFormTambahStok">
+            <div class="section-header">
+                <h2 id="judulFormTambahStok" class="section-title">Tambah Baris Stok Buku Baru (Manipulasi DOM)</h2>
+                <button type="button" id="btnResetKatalogDefault" class="btn btn-outline btn-sm">Reset ke Data Default <code>data.js</code></button>
+            </div>
+
+            <div id="alertStokBaru" class="alert-box" role="alert">
+                <span class="alert-text"></span>
+            </div>
+
+            <form id="formTambahStokBaru" novalidate>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="inputKodeBarang">Kode Buku / Barang *</label>
+                        <input type="text" id="inputKodeBarang" placeholder="Contoh: MSIM4309" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNamaBarang">Judul / Nama Buku *</label>
+                        <input type="text" id="inputNamaBarang" placeholder="Contoh: Pemrograman Berbasis Web" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputJenisBarang">Jenis Bahan Ajar *</label>
+                        <select id="inputJenisBarang">
+                            <option value="Buku Ajar">Buku Ajar</option>
+                            <option value="Modul Praktikum">Modul Praktikum</option>
+                            <option value="Buku Referensi">Buku Referensi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="inputEdisiBarang">Edisi *</label>
+                        <input type="number" id="inputEdisiBarang" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStokBarang">Jumlah Stok (Eksemplar) *</label>
+                        <input type="number" id="inputStokBarang" min="1" placeholder="Contoh: 250" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputHargaBarang">Harga Satuan (Rp) *</label>
+                        <input type="text" id="inputHargaBarang" placeholder="Contoh: 195000 atau Rp 195.000" required>
+                    </div>
+                </div>
+
+                <div class="form-row-2" style="align-items: end;">
+                    <div class="form-group">
+                        <label for="inputCoverBarang">Pilih Gambar Sampul (Folder <code>img/</code>)</label>
+                        <select id="inputCoverBarang">
+                            <option value="img/pengantar_komunikasi.jpg">Sampul 1 — Pengantar Ilmu Komunikasi (img/pengantar_komunikasi.jpg)</option>
+                            <option value="img/manajemen_keuangan.jpg">Sampul 2 — Manajemen Keuangan (img/manajemen_keuangan.jpg)</option>
+                            <option value="img/kepemimpinan.jpg">Sampul 3 — Kepemimpinan (img/kepemimpinan.jpg)</option>
+                            <option value="img/mikrobiologi.jpg">Sampul 4 — Mikrobiologi Dasar (img/mikrobiologi.jpg)</option>
+                            <option value="img/paud_perkembangan.jpeg">Sampul 5 — Perkembangan Anak Usia Dini (img/paud_perkembangan.jpeg)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">+ Tambahkan Baris ke Tabel Katalog</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- BAGIAN 2: TABEL DINAMIS DATA KATALOG BUKU -->
+        <section class="card-panel" aria-labelledby="judulTabelKatalog">
+            <div class="section-header">
+                <h2 id="judulTabelKatalog" class="section-title">Daftar Katalog &amp; Ketersediaan Stok</h2>
+                <span id="infoJumlahKatalog" style="font-size: 0.86rem; color: #57606a;">Memuat katalog...</span>
+            </div>
+
+            <div class="filter-toolbar">
+                <div>
+                    <label for="cariKatalogInput">Cari Kode atau Judul Buku</label>
+                    <input type="text" id="cariKatalogInput" placeholder="Ketik kode barang (misal: ASIP4301) atau judul buku...">
+                </div>
+                <div>
+                    <label for="filterJenisBuku">Filter Jenis Barang</label>
+                    <select id="filterJenisBuku">
+                        <option value="SEMUA">Semua Jenis</option>
+                        <option value="Buku Ajar">Buku Ajar</option>
+                        <option value="Modul Praktikum">Modul Praktikum</option>
+                        <option value="Buku Referensi">Buku Referensi</option>
+                    </select>
+                </div>
+                <div>
+                    <a href="checkout.html" class="btn btn-accent">Pesan Buku Sekarang</a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Sampul</th>
+                            <th>Kode Barang</th>
+                            <th>Nama / Judul Buku</th>
+                            <th>Jenis Barang</th>
+                            <th style="text-align:center;">Edisi</th>
+                            <th>Status &amp; Jumlah Stok</th>
+                            <th>Harga Satuan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyKatalogBuku">
+                        <!-- Diisi otomatis dari konstanta dataKatalogBuku oleh js/script.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 <strong>Lentera Pustaka</strong> — Halaman Informasi Stok/Katalog (<code>stok.html</code>).</span>
+            <span>Sumber Data: <code>const dataKatalogBuku</code> pada <code>js/data.js</code></span>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Pengiriman (Delivery Order) — Lentera Pustaka</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-do-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.75rem;
+            max-width: 640px;
+        }
+        .quick-do-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.85rem;
+            align-items: center;
+        }
+        @media (max-width: 600px) {
+            .search-do-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Semantik -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="dashboard.html" class="brand-identity">
+                <img src="assets/logo.png" alt="Logo Lentera Pustaka" class="brand-logo">
+                <div>
+                    <span class="brand-title">Lentera Pustaka</span>
+                    <span class="brand-subtitle">Layanan Pelacakan Delivery Order (DO)</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu Utama">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                    <li><a href="checkout.html">Pemesanan Buku</a></li>
+                    <li><a href="tracking.html" class="active">Tracking Pengiriman</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-pill">
+                <span>Halo, <strong id="headerUserName">Rina Wulandari</strong></span>
+                <span id="headerUserRole" class="user-role-badge">User</span>
+                <button type="button" id="btnLogoutApp" class="btn-logout">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="page-banner">
+            <div>
+                <h1>Informasi &amp; Pelacakan Pengiriman (Tracking DO)</h1>
+                <p>Masukkan Nomor Delivery Order (DO) untuk melihat nama pemesan, progress pengiriman, detail ekspedisi, dan riwayat perjalanan paket.</p>
+            </div>
+        </section>
+
+        <!-- FORM PENCARIAN NOMOR DELIVERY ORDER -->
+        <section class="card-panel" aria-labelledby="judulCariDO">
+            <div class="section-header">
+                <h2 id="judulCariDO" class="section-title">Pencarian Nomor Delivery Order</h2>
+            </div>
+
+            <div id="alertTrackingBox" class="alert-box" role="alert">
+                <span class="alert-text"></span>
+            </div>
+
+            <form id="formCariTracking" novalidate>
+                <label for="inputNomorDO">Input Nomor Delivery Order (DO)</label>
+                <div class="search-do-bar">
+                    <input type="text" id="inputNomorDO" placeholder="Masukkan Nomor DO (contoh: 20230012 atau 20230013)" required>
+                    <button type="submit" class="btn btn-primary">Cari Pengiriman</button>
+                </div>
+            </form>
+
+            <div class="quick-do-chips">
+                <span style="font-size: 0.84rem; color: #57606a; font-weight: 600;">Nomor DO Tersedia di <code>data.js</code>:</span>
+                <div id="daftarTombolDO" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            </div>
+        </section>
+
+        <!-- HASIL PELACAKAN PENGIRIMAN -->
+        <section id="panelHasilTracking" class="card-panel" aria-labelledby="judulHasilTracking">
+            <div class="section-header">
+                <div>
+                    <span style="font-size: 0.8rem; color: #57606a; text-transform: uppercase; font-weight: 700;">Hasil Pelacakan Paket</span>
+                    <h2 id="judulHasilTracking" class="section-title">Delivery Order #<span id="trackNomorDO">20230012</span></h2>
+                </div>
+                <span id="trackStatusBadge" class="badge badge-warning" style="font-size: 0.9rem; padding: 0.4rem 0.95rem;">Dalam Perjalanan</span>
+            </div>
+
+            <!-- Simulasi Status Pengiriman dengan Progress Bar & Stepper Warna -->
+            <div class="tracking-progress-wrapper">
+                <div class="progress-bar-track">
+                    <div id="trackProgressBarFill" class="progress-bar-fill" style="width: 65%;"></div>
+                </div>
+                <div class="progress-steps">
+                    <div id="stepNode1" class="step-node completed">1. Penerimaan di Loket</div>
+                    <div id="stepNode2" class="step-node completed">2. Proses Transit Hub</div>
+                    <div id="stepNode3" class="step-node active">3. Dalam Perjalanan Kurir</div>
+                    <div id="stepNode4" class="step-node">4. Paket Selesai Diterima</div>
+                </div>
+            </div>
+
+            <!-- Tabel Informasi Pemesan & Detail Ekspedisi, Tanggal Kirim, Jenis Paket, Total Pembayaran -->
+            <div class="form-row-2" style="align-items: start; margin-top: 1.5rem;">
+                <div>
+                    <h3 style="font-size: 1.05rem; color: #1b4332; margin-bottom: 0.75rem;">Detail Informasi Pengiriman &amp; Pembayaran</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 42%;">Nama Pemesan</th>
+                                    <td><strong id="trackNamaPemesan" style="font-size: 1rem; color: #1b4332;">Rina Wulandari</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Detail Ekspedisi</th>
+                                    <td id="trackEkspedisi">JNE</td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Kirim</th>
+                                    <td id="trackTanggalKirim">2025-08-25</td>
+                                </tr>
+                                <tr>
+                                    <th>Jenis Paket</th>
+                                    <td><span id="trackJenisPaket" class="badge badge-info">0JKT01</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Total Pembayaran</th>
+                                    <td><strong id="trackTotalBayar" style="color: #b45309; font-size: 1.05rem;">Rp 180.000</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Kronologi Riwayat Perjalanan Paket -->
+                <div>
+                    <h3 style="font-size: 1.05rem; color: #1b4332; margin-bottom: 0.75rem;">Kronologi Riwayat Perjalanan Ekspedisi</h3>
+                    <div style="background: #faf7f2; border: 1px solid #e2dcd3; border-radius: 10px; padding: 1.15rem;">
+                        <ul id="listRiwayatPerjalanan" class="timeline-list">
+                            <!-- Diisi otomatis dari array perjalanan[] pada dataTracking -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 <strong>Lentera Pustaka</strong> — Halaman Tracking Pengiriman (<code>tracking.html</code>).</span>
+            <span>Sumber Data: Objek <code>dataTracking</code> pada <code>js/data.js</code></span>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Pengguna — Lentera Pustaka | Toko Buku & Bahan Ajar Online</title>
+    <!-- 1. External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 2. Internal CSS (Memenuhi Indikator 2: Kombinasi External, Internal, dan Inline CSS) -->
+    <style>
+        .login-highlight-tag {
+            display: inline-block;
+            background-color: rgba(254, 243, 199, 0.18);
+            color: #fef3c7;
+            border: 1px solid rgba(254, 243, 199, 0.45);
+            padding: 0.28rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .password-toggle-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Semantik -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="brand-identity">
+                <img src="assets/logo.png" alt="Logo Lentera Pustaka" class="brand-logo">
+                <div>
+                    <span class="brand-title">Lentera Pustaka</span>
+                    <span class="brand-subtitle">Portal Pemesanan Bahan Ajar &amp; Katalog Buku Akademik</span>
+                </div>
+            </a>
+            <nav class="main-nav" aria-label="Navigasi Cepat">
+                <ul>
+                    <li><a href="index.html" class="active">Halaman Login</a></li>
+                    <li><a href="dashboard.html">Preview Dashboard</a></li>
+                    <li><a href="stok.html">Katalog Buku</a></li>
+                    <li><a href="tracking.html">Cek Resi DO</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Konten Utama Semantik -->
+    <main class="login-wrapper">
+        <section class="login-grid" aria-labelledby="judulHalamanLogin">
+            <!-- Panel Samping Informasi & Akun Demo (<aside>) -->
+            <aside class="login-aside">
+                <div>
+                    <span class="login-highlight-tag">Tugas UTS Pemrograman Web 1</span>
+                    <h2>Selamat Datang di Portal Distribusi Buku Ajar</h2>
+                    <p>
+                        Akses katalog buku perkuliahan, kelola stok secara dinamis, lakukan pemesanan bahan ajar, dan pantau posisi pengiriman Delivery Order (DO) secara langsung.
+                    </p>
+                </div>
+
+                <!-- Kotak Kredensial dari data.js untuk mempermudah pengujian -->
+                <div class="demo-credentials-box">
+                    <h3>Akun Terdaftar pada <code>data.js</code> (Klik untuk Isi Otomatis):</h3>
+                    <ul class="demo-cred-list">
+                        <li class="demo-cred-item">
+                            <span><strong>Rina Wulandari</strong> (rina@gmail.com / rina123)</span>
+                            <button type="button" class="btn-fill-demo" onclick="isiKredensialDemo('rina@gmail.com', 'rina123')">Gunakan</button>
+                        </li>
+                        <li class="demo-cred-item">
+                            <span><strong>Agus Pranoto</strong> (agus@gmail.com / agus123)</span>
+                            <button type="button" class="btn-fill-demo" onclick="isiKredensialDemo('agus@gmail.com', 'agus123')">Gunakan</button>
+                        </li>
+                        <li class="demo-cred-item">
+                            <span><strong>Siti Marlina</strong> (siti@gmail.com / siti123)</span>
+                            <button type="button" class="btn-fill-demo" onclick="isiKredensialDemo('siti@gmail.com', 'siti123')">Gunakan</button>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Panel Formulir Login (<article>) -->
+            <article class="login-form-panel">
+                <h1 id="judulHalamanLogin">Masuk ke Akun Anda</h1>
+                <p class="login-subtitle">Silakan masukkan email dan password yang terdaftar untuk melanjutkan ke Dashboard Menu.</p>
+
+                <!-- Kotak Alert Feedback Error / Sukses -->
+                <div id="loginAlertBox" class="alert-box alert-error" role="alert">
+                    <span class="alert-text">email/password yang anda masukkan salah</span>
+                </div>
+
+                <form id="formLoginUtama" novalidate>
+                    <div class="form-group">
+                        <label for="loginEmail">Alamat Email</label>
+                        <input type="email" id="loginEmail" name="email" placeholder="Contoh: rina@gmail.com" required autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" id="loginPassword" name="password" placeholder="Masukkan password Anda" required autocomplete="current-password">
+                        </div>
+                        <!-- Contoh Penggunaan Inline CSS (Indikator 2) -->
+                        <p class="field-hint" style="color: #b45309; font-weight: 500;">
+                            *Tips uji coba: Coba masukkan password acak untuk menguji pop-up validasi error.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Login Sekarang</button>
+                </form>
+
+                <!-- Tombol Lupa Password & Daftar yang memunculkan Modal Box / Pop-Up -->
+                <div class="login-links-row">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="bukaModal('modalLupaPassword')">
+                        Lupa Password?
+                    </button>
+                    <button type="button" class="btn btn-accent btn-sm" onclick="bukaModal('modalDaftar')">
+                        Daftar Akun Baru
+                    </button>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <!-- MODAL 1: POP-UP ALERT VALIDASI LOGIN SALAH -->
+    <div id="modalPopUpPesan" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulPopUpPesan">
+        <div class="modal-box">
+            <div id="headerPopUpPesan" class="modal-header" style="background-color: #b91c1c;">
+                <h3 id="judulPopUpPesan">Peringatan Login</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalPopUpPesan')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="isiPopUpPesan" style="font-size: 1rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    email/password yang anda masukkan salah
+                </p>
+                <p style="font-size: 0.88rem; color: #57606a;">
+                    Periksa kembali penulisan alamat email beserta kata sandi Anda, atau pilih salah satu akun demo yang tersedia pada panel samping.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" onclick="tutupModal('modalPopUpPesan')">Saya Mengerti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: LUPA PASSWORD (MODAL BOX / POP-UP) -->
+    <div id="modalLupaPassword" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulModalLupa">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="judulModalLupa">Pemulihan Lupa Password</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalLupaPassword')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: #57606a; margin-bottom: 1rem;">
+                    Masukkan alamat email akun Anda yang terdaftar pada <code>dataPengguna</code> untuk melakukan pengecekan kata sandi:
+                </p>
+                <div id="hasilLupaPassword" class="alert-box">
+                    <span class="alert-text"></span>
+                </div>
+                <form id="formLupaPassword">
+                    <div class="form-group">
+                        <label for="emailLupaPassword">Email Terdaftar</label>
+                        <input type="email" id="emailLupaPassword" placeholder="Contoh: rina@gmail.com" required>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="tutupModal('modalLupaPassword')">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Cari Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: DAFTAR AKUN BARU (MODAL BOX / POP-UP) -->
+    <div id="modalDaftar" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulModalDaftar">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="judulModalDaftar">Pendaftaran Pengguna Baru</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalDaftar')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="alertDaftarAkun" class="alert-box">
+                    <span class="alert-text"></span>
+                </div>
+                <form id="formDaftarAkun">
+                    <div class="form-group">
+                        <label for="daftarNama">Nama Lengkap</label>
+                        <input type="text" id="daftarNama" placeholder="Masukkan nama lengkap Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="daftarEmail">Alamat Email</label>
+                        <input type="email" id="daftarEmail" placeholder="nama@email.com" required>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="daftarPassword">Password Baru</label>
+                            <input type="password" id="daftarPassword" placeholder="Minimal 5 karakter" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="daftarRole">Peran Pengguna</label>
+                            <select id="daftarRole">
+                                <option value="User">User (Mahasiswa / Umum)</option>
+                                <option value="Admin">Admin Pengelola</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="tutupModal('modalDaftar')">Tutup</button>
+                        <button type="submit" class="btn btn-accent btn-sm">Simpan &amp; Daftar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Semantik -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 <strong>Lentera Pustaka</strong> — Aplikasi Pemesanan Buku Online (UTS Pemrograman Web 1).</span>
+            <span>Struktur HTML5 Semantik &bull; CSS3 &bull; Vanilla JavaScript DOM</span>
+        </div>
+    </footer>
+
+    <!-- Pemanggilan File JS Terpisah -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

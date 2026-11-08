@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Pemesanan &amp; Checkout — Lentera Pustaka</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-summary-box {
+            background-color: #faf7f2;
+            border: 1px solid #e2dcd3;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.94rem;
+        }
+        .summary-line.total {
+            border-top: 2px solid #1b4332;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1b4332;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Semantik -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="dashboard.html" class="brand-identity">
+                <img src="assets/logo.png" alt="Logo Lentera Pustaka" class="brand-logo">
+                <div>
+                    <span class="brand-title">Lentera Pustaka</span>
+                    <span class="brand-subtitle">Formulir Pemesanan &amp; Pembayaran Buku Ajar</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu Utama">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="stok.html">Informasi Stok/Katalog</a></li>
+                    <li><a href="checkout.html" class="active">Pemesanan Buku</a></li>
+                    <li><a href="tracking.html">Tracking Pengiriman</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-pill">
+                <span>Halo, <strong id="headerUserName">Rina Wulandari</strong></span>
+                <span id="headerUserRole" class="user-role-badge">User</span>
+                <button type="button" id="btnLogoutApp" class="btn-logout">Keluar</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="page-banner">
+            <div>
+                <h1>Halaman Pemesanan Buku (Checkout)</h1>
+                <p>Kelola item buku yang dipesan (tambah/ubah kuantitas) serta lengkapi informasi pemesan dan metode pembayaran.</p>
+            </div>
+            <a href="stok.html" class="btn btn-outline" style="background: rgba(255,255,255,0.12); color: #fff; border-color: #fef3c7;">&larr; Lihat Katalog Buku</a>
+        </section>
+
+        <div id="alertCheckoutBox" class="alert-box" role="alert">
+            <span class="alert-text"></span>
+        </div>
+
+        <!-- BAGIAN 1: DATA PEMESANAN YANG DAPAT DITAMBAH / UBAH -->
+        <section class="card-panel" aria-labelledby="judulDaftarPesanan">
+            <div class="section-header">
+                <h2 id="judulDaftarPesanan" class="section-title">1. Data Item Pemesanan Buku (Dapat Ditambah / Diubah)</h2>
+            </div>
+
+            <!-- Form Pilih & Tambah Buku ke Keranjang Pesanan -->
+            <form id="formTambahItemPesanan" style="margin-bottom: 1.25rem; background: #faf7f2; padding: 1rem; border-radius: 8px; border: 1px solid #e2dcd3;">
+                <div class="form-row-3" style="align-items: end;">
+                    <div class="form-group" style="margin-bottom: 0; grid-column: span 2;">
+                        <label for="pilihBukuCheckout">Pilih Buku dari Katalog (<code>dataKatalogBuku</code>)</label>
+                        <select id="pilihBukuCheckout"></select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 0.65rem; align-items: end;">
+                        <div>
+                            <label for="jumlahBukuCheckout">Jumlah</label>
+                            <input type="number" id="jumlahBukuCheckout" min="1" value="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">+ Tambah ke Pesanan</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Tabel Daftar Item Pemesanan -->
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Kode Buku</th>
+                            <th>Judul Bahan Ajar</th>
+                            <th>Harga Satuan</th>
+                            <th>Ubah Jumlah (Qty)</th>
+                            <th>Subtotal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyKeranjangPesanan">
+                        <!-- Diisi dinamis oleh js/script.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- BAGIAN 2: ISIAN DATA INFORMASI PEMESAN DAN PEMBAYARAN -->
+        <section class="card-panel" aria-labelledby="judulFormPemesan">
+            <div class="section-header">
+                <h2 id="judulFormPemesan" class="section-title">2. Informasi Pemesan, Ekspedisi &amp; Pembayaran</h2>
+            </div>
+
+            <form id="formDataPemesanCheckout" novalidate>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="pemesanNama">Nama Lengkap Pemesan *</label>
+                        <input type="text" id="pemesanNama" placeholder="Contoh: Rina Wulandari" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pemesanEmail">Alamat Email Aktif *</label>
+                        <input type="email" id="pemesanEmail" placeholder="Contoh: rina@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pemesanTelepon">Nomor Telepon / WhatsApp *</label>
+                        <input type="text" id="pemesanTelepon" value="0812-8899-7744" placeholder="Contoh: 0812xxxx" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pemesanAlamat">Alamat Lengkap Pengiriman (Beserta Kota / UPBJJ) *</label>
+                    <textarea id="pemesanAlamat" rows="2" placeholder="Masukkan alamat lengkap tujuan pengiriman paket buku..." required>Jl. Pondok Cabe Raya No. 45, Pamulang, Tangerang Selatan, Banten 15418</textarea>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="pemesanEkspedisi">Pilih Jasa Ekspedisi &amp; Jenis Paket *</label>
+                        <select id="pemesanEkspedisi">
+                            <option value="JNE" data-paket="0JKT01" data-ongkir="15000">JNE Reguler (Paket 0JKT01) — Rp 15.000</option>
+                            <option value="Pos Indonesia" data-paket="0UPBJJBDG" data-ongkir="12000">Pos Indonesia Kilat Khusus (Paket 0UPBJJBDG) — Rp 12.000</option>
+                            <option value="JNE YES" data-paket="YES-EXP" data-ongkir="28000">JNE YES Yakin Esok Sampai (Paket YES-EXP) — Rp 28.000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pemesanMetodeBayar">Metode Pembayaran *</label>
+                        <select id="pemesanMetodeBayar">
+                            <option value="Transfer Virtual Account (BRI/Mandiri/BCA)">Transfer Virtual Account (BRI / Mandiri / BCA)</option>
+                            <option value="QRIS Nusantara (E-Wallet & Mobile Banking)">QRIS Nusantara (E-Wallet &amp; Mobile Banking)</option>
+                            <option value="Minimarket (Alfamart / Indomaret)">Minimarket (Alfamart / Indomaret)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ringkasan Kalkulasi Pembayaran -->
+                <div class="checkout-summary-box">
+                    <div class="summary-line">
+                        <span>Subtotal Harga Buku:</span>
+                        <strong id="ringkasanSubtotal">Rp 0</strong>
+                    </div>
+                    <div class="summary-line">
+                        <span>Biaya Pengiriman (Ekspedisi):</span>
+                        <strong id="ringkasanOngkir">Rp 15.000</strong>
+                    </div>
+                    <div class="summary-line total">
+                        <span>Total Pembayaran Akhir:</span>
+                        <span id="ringkasanGrandTotal">Rp 0</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.35rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+                    <a href="stok.html" class="btn btn-outline">Tambah Buku Lain</a>
+                    <button type="submit" class="btn btn-accent">Konfirmasi Pemesanan &amp; Bayar Sekarang</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- MODAL BUKTI PEMESANAN & NOMOR DO BARU -->
+    <div id="modalBuktiCheckout" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="judulBuktiCheckout">
+        <div class="modal-box modal-lg">
+            <div class="modal-header">
+                <h3 id="judulBuktiCheckout">Bukti Konfirmasi Pemesanan &amp; Pembayaran</h3>
+                <button type="button" class="modal-close" onclick="tutupModal('modalBuktiCheckout')" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-body" id="isiModalBuktiCheckout">
+                <!-- Diisi otomatis setelah form checkout disubmit -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline btn-sm" onclick="tutupModal('modalBuktiCheckout')">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 <strong>Lentera Pustaka</strong> — Halaman Pemesanan (<code>checkout.html</code>).</span>
+            <span>Terintegrasi dengan History Transaksi &amp; Nomor Delivery Order</span>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
