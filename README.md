@@ -2,10 +2,10 @@
 
 | Keterangan | Data Mahasiswa |
 | :--- | :--- |
-| **Nama** | *(Isi Nama Lengkap Kamu)* |
-| **NIM** | *(Isi NIM Kamu)* |
-| **Kelas** | *(Isi Kelas Kamu)* |
-| **Mata Kuliah** | Pemrograman Web 1 |
+| **Nama** | *Satrio Erlangga* |
+| **NIM** | *312510006* |
+| **Kelas** | *I253C* |
+| **Mata Kuliah** | Pemrograman Web  |
 | **Dosen Pengampu** | Agung Nugroho, S.Kom., M.Kom. |
 
 ---
@@ -230,12 +230,15 @@ Halaman login dirancang menggunakan elemen semantik `<header>`, `<main>`, `<sect
 - Tombol **Lupa Password** dan **Daftar Akun Baru** yang ditampilkan dalam bentuk **Modal Box / Pop-Up**.
 
 #### Tampilan Halaman Login (`index.html`):
+<img width="951" height="434" alt="image" src="https://github.com/user-attachments/assets/ce0bb189-a5e1-4dd2-80cd-f3261eedfef2" />
 
 
 #### Tampilan Pop-Up Alert Saat Email / Password Salah:
+<img width="948" height="438" alt="image" src="https://github.com/user-attachments/assets/8765d1b0-4ca4-4c2e-ad84-cc5b6e38f9c5" />
 
 
 #### Tampilan Modal Box Pendaftaran & Lupa Password:
+<img width="947" height="437" alt="image" src="https://github.com/user-attachments/assets/2109ee69-5d4e-4d15-9ae3-276dc2140c96" />
 
 
 **Kode `index.html`:**
@@ -484,6 +487,7 @@ Halaman `dashboard.html` berfungsi sebagai halaman utama setelah pengguna berhas
   4. History Transaksi (Tabel riwayat transaksi & Modal Box)
 
 #### Tampilan Halaman Dashboard (`dashboard.html`):
+<img width="292" height="319" alt="image" src="https://github.com/user-attachments/assets/6b2eca56-79f4-45d4-ae3a-d6366849b817" />
 
 
 **Kode `dashboard.html`:**
@@ -737,6 +741,7 @@ Halaman `dashboard.html` berfungsi sebagai halaman utama setelah pengguna berhas
 Halaman `stok.html` menampilkan daftar buku secara dinamis dari variabel konstanta `dataKatalogBuku` pada `js/data.js`. Selain fitur pencarian dan filter jenis buku, terdapat formulir untuk **menambahkan baris stok buku baru secara langsung ke dalam tabel menggunakan JavaScript DOM (`document.createElement` & `appendChild`)**.
 
 #### Tampilan Halaman Informasi Stok / Katalog (`stok.html`):
+<img width="285" height="386" alt="image" src="https://github.com/user-attachments/assets/1615d3d4-fcf9-46e1-b757-f36b02771766" />
 
 
 **Kode `stok.html`:**
@@ -937,6 +942,7 @@ Halaman `checkout.html` digunakan untuk mengelola pemesanan bahan ajar. Fitur ya
 - Ketika pesanan dikonfirmasi, sistem menampilkan modal bukti pemesanan dan membuat **Nomor Delivery Order (DO) baru** yang langsung terhubung ke halaman Tracking.
 
 #### Tampilan Halaman Pemesanan (`checkout.html`):
+<img width="287" height="362" alt="image" src="https://github.com/user-attachments/assets/c73edc06-a633-4691-9c27-e17677f494f1" />
 
 
 **Kode `checkout.html`:**
@@ -1169,6 +1175,7 @@ Halaman `tracking.html` memungkinkan pengguna melacak status pengiriman berdasar
 - **Kronologi Riwayat Perjalanan Ekspedisi** dalam bentuk *timeline*.
 
 #### Tampilan Halaman Tracking Pengiriman (`tracking.html`):
+<img width="288" height="287" alt="image" src="https://github.com/user-attachments/assets/8e503733-9070-42fb-beed-589eea1a6537" />
 
 
 **Kode `tracking.html`:**
